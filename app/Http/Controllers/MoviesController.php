@@ -7,8 +7,10 @@ use App\Models\moviecat;
 use App\Models\language;
 use App\Models\slideshow;
 use App\Models\series;
+use App\Models\User;
 use Illuminate\Http\Request;
 use View;
+use App\Models\MovieFav;
 class MoviesController extends Controller
 {
     /**
@@ -16,6 +18,38 @@ class MoviesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function fav($movie,$user)
+    {
+        
+        
+        $item = MovieFav::where("user_id",$user)
+        ->where("movie_id",$movie)
+        ->first();
+       
+        if($item){
+             MovieFav::find($item->id)->delete();
+        }else{
+            $item = new MovieFav();
+            $item->user_id = $user;
+            $item->movie_id = $movie;
+            $item->save();
+
+        }
+        
+        return response()->json(['success'=>true], 200);
+    } 
+
+    public function getFav($user)
+    {
+       
+       $data=  MovieFav::where("user_id",$user)
+       ->with("movie")
+       ->get();
+       return response()->json(['success'=>true,'data'=>$data], 200);
+        
+    }
+
     public function index()
     {
         //

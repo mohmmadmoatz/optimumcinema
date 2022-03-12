@@ -8,6 +8,12 @@ class movies extends Model
 {
     //
 
+  
+
+    
+
+    
+
     public function getPosterAttribute($value)
     {
         $newip = str_replace("93.191.114.168",$_SERVER['SERVER_ADDR'],$value);

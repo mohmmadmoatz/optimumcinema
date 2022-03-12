@@ -7,6 +7,7 @@ use App\Models\moviecat;
 use App\Models\language;
 use App\Models\seriesSeasons;
 use App\Models\episodes;
+use App\Models\SeriesFav;
 use Illuminate\Http\Request;
 use View;
 class SeriesController extends Controller
@@ -16,6 +17,40 @@ class SeriesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+    public function fav($movie,$user)
+    {
+        
+        
+        $item = SeriesFav::where("user_id",$user)
+        ->where("series_id",$movie)
+        ->first();
+       
+        if($item){
+            SeriesFav::find($item->id)->delete();
+        }else{
+            $item = new SeriesFav();
+            $item->user_id = $user;
+            $item->series_id = $movie;
+            $item->save();
+
+        }
+        
+        return response()->json(['success'=>true], 200);
+    } 
+
+    public function getFav($user)
+    {
+       
+       $data=  SeriesFav::where("user_id",$user)
+       ->with("series")
+       ->get();
+       return response()->json(['success'=>true,'data'=>$data], 200);
+        
+    }
+
+
     public function index()
     {
         //

@@ -33,6 +33,15 @@
 
   <link rel="stylesheet" href="https://cdn.plyr.io/3.6.4/plyr.css" />
 
+  <style>
+    .float-right{
+      float: right!important;
+    white-space: nowrap;
+    width: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    }
+  </style>
 
 
   <title>Cinemana</title>
@@ -275,7 +284,7 @@ function serieslang(id) {
       var owl = $(".owl-carousel");
 
       owl.owlCarousel({
-        loop: false,
+        loop: true,
         stagePadding: 2,
            
             nav: true,
@@ -296,7 +305,7 @@ function serieslang(id) {
                     items: 7
                 },
                 1200: {
-                    items: 10
+                    items: 8
                 },
             }
       });

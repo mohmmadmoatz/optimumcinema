@@ -12,10 +12,12 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index($id,$type)
     {
         //
-        $data= Comment::where('movie_id',$id)->get();
+        $data= Comment::where('movie_id',$id)
+        ->where("type",$type)
+        ->get();
       
          return response()->json([
                 'success' => true,
@@ -38,6 +40,10 @@ class CommentController extends Controller
         $data= new Comment();
         $data->name=$request->name;
         $data->movie_id=$request->movie_id;
+
+        $data->type=$request->type;
+        $data->user_id=$request->user_id;
+
           if ($data->save())
             return response()->json([
                 'success' => true,

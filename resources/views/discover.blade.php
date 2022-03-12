@@ -109,7 +109,7 @@
           </div>
 
          <div class="container">
-          {{ $data->links() }}
+          {{ $data->links("pagination::bootstrap-4") }}
          </div>
        
 </div>

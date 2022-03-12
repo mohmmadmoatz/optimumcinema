@@ -18,7 +18,24 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('addToHistory', 'HistoryController@addToHistory');
+
+Route::get('history/{id}', 'HistoryController@index');
+
+Route::post('request', 'ItemRequestController@store');
+
+
+Route::post('login', 'UserController@login');
+Route::post('register', 'UserController@register');
+
+
 Route::post('uploadimage', 'SlideshowController@uploadim');
+
+Route::get('fav/{movie}/{user}', 'MoviesController@fav');
+Route::get('getfav/{user}', 'MoviesController@getFav');
+
+Route::get('favseries/{movie}/{user}', 'SeriesController@fav');
+Route::get('getfavseries/{user}', 'SeriesController@getFav');
 
 
 //Tv Api
@@ -42,7 +59,7 @@ Route::get('resierv', 'ResiervController@index');
 Route::post('resierv', 'ResiervController@store');
 
 Route::post('comment', 'CommentController@store');
-Route::get('comment/{id}', 'CommentController@index');
+Route::get('comment/{id}/{type}', 'CommentController@index');
 
 //Movies Cat Api
 

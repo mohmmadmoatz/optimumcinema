@@ -23,9 +23,7 @@ Route::post('addToHistory', 'HistoryController@addToHistory');
 Route::get('history/{id}', 'HistoryController@index');
 
 Route::post('request', 'ItemRequestController@store');
-Route::get('users/{id}', function ($id) {
-    
-});('getreq', 'ItemRequestController@getreq');
+Route::get('getreq', 'ItemRequestController@getreq');
 
 
 Route::post('login', 'UserController@login');

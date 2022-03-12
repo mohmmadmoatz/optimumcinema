@@ -8,6 +8,13 @@ class ItemRequestController extends Controller
 {
     //
 
+    public function getreq()
+    {
+        $data = ItemRequest::get();
+        return response()->json(['success'=>true,'data'=>$data], 200);
+        
+    }
+
     public function store(Request $request)
     {
         $item = new ItemRequest();

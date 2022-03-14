@@ -9,6 +9,9 @@ use App\Models\movies;
 use App\Models\series;
 use App\Models\seriesSeasons;
 use App\Models\episodes;
+use App\Models\SeriesFav;
+use Auth;
+use Redirect;
 
 
 
@@ -119,7 +122,15 @@ class DiscoverController extends Controller
         if($epi !=0){
             $epidata = episodes::find($epi);
         }
-
+        $isfav = 0;
+        if(Auth::check()) {
+         $item = SeriesFav::where("user_id",auth()->user()->id)
+         ->where("series_id",$id)
+         ->first();
+         if ($item != null ) {
+             $isfav = 1;
+         }
+        }
         return view('sub.series_details', [
             'series'=>$series,
             'cats'=>$cats,
@@ -127,10 +138,44 @@ class DiscoverController extends Controller
             'seasons'=>$seasons,
             'selectedseason'=>$selectedseason,
             "episodes"=>$episodes,
-            "epi"=>$epidata
+            "epi"=>$epidata,
+            'isfav'=>$isfav
         ]);
 
 
     }
 
-}
+
+
+
+ public function removeserisefav($id){
+        $item = SeriesFav::where("user_id",auth()->user()->id)
+        ->where("series_id",$id)
+        ->first();
+        SeriesFav::find($item->id)->delete();
+
+        return Redirect::back()->with('isfav','0');
+
+            
+        
+    }
+
+    public function addseriesfav($id){
+       
+       
+   
+       
+     
+      
+      
+            $item = new SeriesFav();
+            $item->user_id = auth()->user()->id;
+            $item->series_id = $id;
+            $item->save();
+        
+            return Redirect::back()->with('isfav',1);
+
+
+
+
+}}

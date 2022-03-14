@@ -64,6 +64,34 @@
       </div>
 
       <ul class="list-unstyled components">
+      @guest
+      <li >
+          <a href="{{route('loginweb')}}">
+            <i class="fa fa-fire"></i>
+            <span>تسجيل الدخول</span>
+
+          </a>
+
+          </li>
+
+          @else
+
+
+   <li >
+          <a  href="{{ route('logout') }}"      onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+            <i class="fa fa-fire"></i>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+              
+              @csrf
+          </form>
+            <span>تسجيل خروج</span>
+
+          </a>
+
+          </li>
+
+          @endguest
         <li class="@isActive('home', 'active')">
           <a href="@route('home')">
             <i class="fas fa-home"></i>
@@ -73,7 +101,8 @@
         </li>
 
           <li >
-          <a href="newmovies">
+          
+          <a href="{{route('newmovies')}}">
             <i class="fa fa-fire"></i>
             <span>الاصدارات الجديدة</span>
 
@@ -83,7 +112,7 @@
 
 
          <li >
-          <a href="famous">
+          <a href="{{route('famous')}}">
             <i class="fa fa-comment-alt"></i>
             <span>المشهورة</span>
 
@@ -151,9 +180,11 @@
 
         </li>
         <hr>
-
+        @guest
+<div></div>
+        @else
         <li>
-          <a href="#">
+          <a href="{{route('favorate')}}">
             <i class="fa fa-bookmark"></i>
             <span>المفضلة </span>
 
@@ -161,8 +192,8 @@
           </a>
 
         </li>
-
         <hr>
+        @endguest
 
         <li style="text-align: center;">
           <img width="30px" src="{{asset('img/facebook-hover.svg')}}">
@@ -284,7 +315,7 @@ function serieslang(id) {
       var owl = $(".owl-carousel");
 
       owl.owlCarousel({
-        loop: true,
+        loop: false,
         stagePadding: 2,
            
             nav: true,

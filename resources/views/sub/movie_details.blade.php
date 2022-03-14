@@ -98,6 +98,19 @@
                             <a  href="#top" class="btn btncinema" id="watchbtn" @click="video=true;player.play();setTimeout(function(){$('body').getNiceScroll().resize();},150)"> <i class="fa fa-play" ></i> شاهد </a>
 
                         </div>
+                        <div class="col-md-1"> </div>
+                        @guest
+                        <div></div>
+                        @else
+                        <div class="col-md-4" >
+                            @if($isfav ==1)
+                          
+                            <a  href="{{route('showmovieafterremovefav',$movie->id)}}" class="btn btncinema" id="watchbtn"> <i  ></i> ازالة  من  المفضلة </a>
+@else 
+<a  href="{{route('showmovieafteraddtofav',$movie->id)}}" class="btn btncinema" id="watchbtn"> <i class="fa fa-heart" ></i> اضافة للمفضلة </a>
+@endif
+                        </div>
+          @endguest
 
                     </div>
 

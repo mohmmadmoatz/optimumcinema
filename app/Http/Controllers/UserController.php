@@ -50,4 +50,14 @@ class UserController extends Controller
     return response($response, 200);
       
     }
+
+
+
+    public function loginweb()
+    {
+        
+        
+        return view('login', ['data' => '']);
+        
+    }
 }

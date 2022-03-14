@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 use App\Models\collection;
 use App\Models\movies;
 use App\Models\moviecat;
+use App\Models\SeriesFav;
 use App\Models\language;
 use App\Models\slideshow;
 use App\Models\series;
 use App\Models\User;
 use Illuminate\Http\Request;
 use View;
+use Auth;
 use App\Models\MovieFav;
 class MoviesController extends Controller
 {
@@ -18,6 +20,154 @@ class MoviesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function showmovieafteraddtofav($id){
+
+        $item = new MovieFav();
+        $item->user_id = auth()->user()->id;
+        $item->movie_id = $id;
+        $item->save();
+        $cats = moviecat::all();
+           
+           $data = movies::find($id);
+           $lang = Language::find($data->language);
+           $data['langname'] = $lang->name;
+           $cats = explode(",", $data->moviecat_id);
+           $catsname='';
+           
+           for($i=0;$i<count($cats);$i++){
+               $tempcat = moviecat::find($cats[$i]);
+               if($tempcat){
+               $catsname =  $catsname . $tempcat->name . ' ';
+    
+               }
+           }
+           
+           $data['cats']=$catsname;
+           
+           if(count($cats)>1){
+            $relatives = movies::whereBetween('moviecat_id',$cats)
+            ->where('id','!=',$id)
+            ->limit(5)
+           ->get();
+           }else{
+           $relatives = movies::where('moviecat_id','like','%'.$data->moviecat_id.'%')
+            ->where('id','!=',$id)
+            ->limit(5)
+           ->get();
+           }
+        
+           
+           return view('sub.movie_details', [
+               'movie' => $data,
+               'cats' => $data,
+               "relatives"=>$relatives,
+               "isfav" => 1
+           ]);
+           
+       }
+
+    public function showmovieafterremovefav($id){
+
+        $item = MovieFav::where("user_id",auth()->user()->id)
+        ->where("movie_id",$id)
+        ->first();
+       
+        if($item){
+             MovieFav::find($item->id)->delete();
+        }
+        $cats = moviecat::all();
+           
+           $data = movies::find($id);
+           $lang = Language::find($data->language);
+           $data['langname'] = $lang->name;
+           $cats = explode(",", $data->moviecat_id);
+           $catsname='';
+           
+           for($i=0;$i<count($cats);$i++){
+               $tempcat = moviecat::find($cats[$i]);
+               if($tempcat){
+               $catsname =  $catsname . $tempcat->name . ' ';
+    
+               }
+           }
+           
+           $data['cats']=$catsname;
+           
+           if(count($cats)>1){
+            $relatives = movies::whereBetween('moviecat_id',$cats)
+            ->where('id','!=',$id)
+            ->limit(5)
+           ->get();
+           }else{
+           $relatives = movies::where('moviecat_id','like','%'.$data->moviecat_id.'%')
+            ->where('id','!=',$id)
+            ->limit(5)
+           ->get();
+           }
+        
+           
+           return view('sub.movie_details', [
+               'movie' => $data,
+               'cats' => $data,
+               "relatives"=>$relatives,
+               "isfav" => 0
+           ]);
+           
+       }
+
+    public function removefav($movie)
+    {
+        
+        
+        $item = MovieFav::where("user_id",auth()->user()->id)
+        ->where("movie_id",$movie)
+        ->first();
+       
+       
+             MovieFav::find($item->id)->delete();
+   
+        $cats = moviecat::all();
+        $languages = Language::all();
+        
+    
+        $movie=  MovieFav::where("user_id",auth()->user()->id)
+        ->with("movie")
+        ->get();
+
+        $series=  SeriesFav::where("user_id",auth()->user()->id)
+       ->with("series")
+       ->get();
+        return view('favorate', [
+            'series' => $series,
+            "movies"=>$movie,
+        'languages' => $languages,
+    
+            'cats' => $cats,
+        ]);
+    } 
+    public function favorate(){
+        $cats = moviecat::all();
+        $languages = Language::all();
+        
+    
+        $movie=  MovieFav::where("user_id",auth()->user()->id)
+        ->with("movie")
+        ->get();
+
+        $series=  SeriesFav::where("user_id",auth()->user()->id)
+       ->with("series")
+       ->get();
+
+        return view('favorate', [
+            'series' => $series,
+            "movies"=>$movie,
+        'languages' => $languages,
+    
+            'cats' => $cats,
+        ]);
+    }
+
+
 
     public function fav($movie,$user)
     {
@@ -91,12 +241,21 @@ class MoviesController extends Controller
         ->limit(5)
 	   ->get();
 	   }
-       
+       $isfav = 0;
+       if(Auth::check()) {
+        $item = MovieFav::where("user_id",auth()->user()->id)
+        ->where("movie_id",$id)
+        ->first();
+        if ($item != null ) {
+            $isfav = 1;
+        }
+       }
        
        return view('sub.movie_details', [
            'movie' => $data,
            'cats' => $data,
-           "relatives"=>$relatives
+           "relatives"=>$relatives,
+           "isfav" => $isfav
        ]);
        
    }

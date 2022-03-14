@@ -10,7 +10,9 @@ class ItemRequestController extends Controller
 
     public function getreq()
     {
-        $data = ItemRequest::get();
+        $data = ItemRequest::
+        with("user:id,name")
+        ->get();
         return response()->json(['success'=>true,'data'=>$data], 200);
         
     }

@@ -23,61 +23,21 @@ class NotifyController extends Controller
     }
     
 
-    public function whereuser(Request $request)
+    public function whereuser($user)
     {
 
         
         //dd($request->username);
         
               $data = Notify::
-              orderBy('id','DESC')
+              where("user_id",$user)
+              ->orderBy('id','DESC')
+              
               ->get();
-              $filterdData = array();
-              for ($i=0; $i < count($data); $i++) { 
-                
-                    if($request->username){
-                        if($data[$i]['username'] == $request->username){
-                            $filterdData[] = $data[$i];
-                         }
-                    }
-                  
-
-                  if($data[$i]['username'] == "all"){
-                    $filterdData[] = $data[$i];
-                 }
-
-                  if($request->profile){
-                    if($data[$i]['profile'] == $request->profile){
-                        $filterdData[] = $data[$i];
-                      }
-                  }  
-                  if($request->owner){
-
-                  
-                 if($data[$i]['owner'] == $request->owner){
-                    $filterdData[] = $data[$i];
-                 }
-                }
-
-
-                //  if($data[$i]['site'] == $request->site){
-                //     $filterdData[] = $data[$i];
-                //  }
-
-                if($request->group){
-
-                 if($data[$i]['groupTag'] == $request->group){
-                    $filterdData[] = $data[$i];
-                 }
-                }
-
-
-                  # code...
-
-              }
+             
         return response()->json([
             'success' => true,
-            'data' => $filterdData
+            'data' => $data
         ]);
     }
 
@@ -140,6 +100,7 @@ class NotifyController extends Controller
         $data = new Notify();
         $data->title = $request->title;
         $data->dtls = $request->dtls;
+        $data->user_id = $request->user_id;
     
   
 

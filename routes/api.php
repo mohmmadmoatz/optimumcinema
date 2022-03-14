@@ -80,7 +80,7 @@ Route::get('moviecat/{id}/movies/{lang}', 'MovieCatController@getmovieslang');
 //NotifyApi
 Route::get('getnewnotify/{id}', 'NotifyController@getnewnotify');
 Route::resource('notify', 'NotifyController');
-Route::post('notify/get', 'NotifyController@whereuser');
+Route::get('notify/get/{userid}', 'NotifyController@whereuser');
 
 
 

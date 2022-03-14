@@ -93,6 +93,19 @@
                             <button class="btn btncinema"> <i class="fa fa-play"></i> شاهد </button>
 
                         </div>
+                        @guest
+                        <div></div>
+                        @else
+                        <div class="col-md-1" ></div>
+                        <div class="col-md-4" >
+                            @if($isfav ==1)
+                          
+                            <a  href="{{route('removeserisefav',$series->id)}}" class="btn btncinema" id="watchbtn"> <i  ></i> ازالة  من  المفضلة </a>
+@else 
+<a  href="{{route('addseriesfav',$series->id)}}" class="btn btncinema" id="watchbtn"> <i class="fa fa-heart" ></i> اضافة للمفضلة </a>
+@endif
+                        </div>
+          @endguest
                         
                     </div>
 
@@ -124,14 +137,19 @@
     </ul>
 
     
-
+    <style>
+        .selected{
+            border:red 1px solid !important;
+        }
+    </style>
     <div id="owl-demo" class="owl-carousel owl-theme">
         @foreach($episodes as $item)
 
-        <a href="{{route('playepi',[$series->id,$item->id])}}">
+        <a href="{{route('playepi',[$series->id,$item->id])}}?season={{$item->season_id}}">
         <div style="padding:10px;">
-            <img src="{{$series->poster}}"
-                style="border-radius: 16px;height: 120px;max-height: 100%;border: 1px solid;">
+            <img @if($epi->id == $item->id) class="selected" @endif src="{{$series->poster}}" 
+                style="border-radius: 16px;height: 120px;max-height: 100%;
+                border: 1px solid;">
 
             <div class="row">
                 <div class="col">الحلقة {{$item->name}}</div>

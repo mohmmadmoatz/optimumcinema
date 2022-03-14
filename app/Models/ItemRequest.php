@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class ItemRequest extends Model
 {
     use HasFactory;
+
+    /**
+     * Get the user that owns the ItemRequest
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

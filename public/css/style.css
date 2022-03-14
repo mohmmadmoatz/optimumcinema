@@ -553,3 +553,7 @@ ul.CTAs a {
         display: block;
     }
 }
+
+#owl-demo {
+    display: grid !important;
+}

@@ -19,6 +19,7 @@ class SeriesController extends Controller
      */
 
 
+   
     public function fav($movie,$user)
     {
         
@@ -79,11 +80,20 @@ class SeriesController extends Controller
        
        $data['cats']=$catsname;
        $seasons = seriesSeasons::where('series_id',$id)->get();
-       
+       $isfav = 0;
+       if(Auth::check()) {
+        $item = SeriesFav::where("user_id",auth()->user()->id)
+        ->where("movie_id",$id)
+        ->first();
+        if ($item != null ) {
+            $isfav = 1;
+        }
+       }
 	 
        return view('sub.series_details', [
            'data' => $data,
-            'seasons'=>$seasons
+            'seasons'=>$seasons,
+            'isfav' => $isfav,
            
        ]);
        

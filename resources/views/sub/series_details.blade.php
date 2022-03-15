@@ -543,7 +543,7 @@ var result = date.toISOString().substr(11, 8);
 
   
     console.log("test")
-    return "Do you want to exit this page?";
+    
 
  
 };

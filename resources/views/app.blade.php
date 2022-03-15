@@ -13,7 +13,9 @@
 }
 
 .plyr__caption{
-    font-size:var(--default)
+    font-size:var(--default);
+    background:transparent !important
+    
 }
 
 .plyr__video-wrapper::before {

@@ -2,8 +2,15 @@
 
     <div class="grid">
   
-      <form action="{{ route('login') }}" method="POST" class="form login">
+      <form action="{{ route('register') }}" method="POST" class="form login">
   @csrf
+
+  <div class="form__field">
+          <label for="login__username"><svg class="icon">
+              <use xlink:href="#icon-user"></use>
+            </svg><span class="hidden">name</span></label>
+          <input autocomplete="name" id="name" type="text" name="name" class="form__input" placeholder="name" required>
+        </div>
         <div class="form__field">
           <label for="login__username"><svg class="icon">
               <use xlink:href="#icon-user"></use>
@@ -17,16 +24,24 @@
             </svg><span class="hidden">Password</span></label>
           <input id="password" type="password" name="password" class="form__input" placeholder="Password" required>
         </div>
-  
         <div class="form__field">
-          <input type="submit" value="Sign In">
+          <label for="login__password"><svg class="icon">
+              <use xlink:href="#icon-lock"></use>
+            </svg><span class="hidden">Password confirm</span></label>
+          <input id="password-confirm" type="password" class="form-form__input" name="password_confirmation" placeholder=" confirm Password" required autocomplete="new-password">
+        </div>
+        <div class="form__field">
+          <input type="submit">
         </div>
   
       </form>
  
-      <p class="text--center">Not a member? <a href="{{route('signup')}}">Sign up now</a> <svg class="icon">
+  <p class="text--center"> a member? <a href="{{route('loginweb')}}">Sign Up now</a> <svg class="icon">
           <use xlink:href="#icon-arrow-right"></use>
         </svg></p>
+
+  </a>
+ 
   
     </div>
   

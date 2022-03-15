@@ -40,7 +40,10 @@ Route::get('/search/{name}',"MoviesController@search")->name("search");
 Route::get('/movies',"DiscoverController@movies")->name("movies");
 Route::get('/series',"DiscoverController@series")->name("series");
 Route::get('/loginweb',"UserController@loginweb")->name("loginweb");
+Route::get('/signup',"UserController@signup")->name("signup");
 
+Route::get('/famous',"MoviesController@moviewhatch")->name("famous");
+Route::get('/continuwhatch',"HistoryController@continuwhatch")->name("continuwhatch");
 
 Auth::routes();
 

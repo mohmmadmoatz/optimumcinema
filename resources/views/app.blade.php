@@ -192,6 +192,15 @@
           </a>
 
         </li>
+        <li>
+          <a href="{{route('continuwhatch')}}">
+            <i class="fa fa-bookmark"></i>
+            <span>متابعة المشاهدة </span>
+
+
+          </a>
+
+        </li>
         <hr>
         @endguest
 

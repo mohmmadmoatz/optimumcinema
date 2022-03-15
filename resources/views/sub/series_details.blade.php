@@ -147,7 +147,7 @@
 
         <a href="{{route('playepi',[$series->id,$item->id])}}?season={{$item->season_id}}">
         <div style="padding:10px;">
-            <img @if($epi->id == $item->id) class="selected" @endif src="{{$series->poster}}" 
+            <img @isset($epi) @if($epi->id == $item->id) class="selected" @endif @endisset src="{{$series->poster}}" 
                 style="border-radius: 16px;height: 120px;max-height: 100%;
                 border: 1px solid;">
 

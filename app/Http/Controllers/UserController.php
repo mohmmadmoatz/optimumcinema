@@ -60,4 +60,12 @@ class UserController extends Controller
         return view('login', ['data' => '']);
         
     }
+
+    public function signup()
+    {
+        
+        
+        return view('signup', ['data' => '']);
+        
+    }
 }

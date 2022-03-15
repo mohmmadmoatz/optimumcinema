@@ -61,6 +61,8 @@ Route::post('resierv', 'ResiervController@store');
 
 Route::post('comment', 'CommentController@store');
 Route::get('comment/{id}/{type}', 'CommentController@index');
+Route::get('comments', 'CommentController@all');
+Route::get('commentdelete/{id}', 'CommentController@delete');
 
 //Movies Cat Api
 

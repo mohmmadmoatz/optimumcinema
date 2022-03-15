@@ -4,10 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\History;
+use App\Models\Language;
+use App\Models\moviecat;
 
 class HistoryController extends Controller
 {
+    public function continuwhatch()
+    {
+        $cats = moviecat::all();
+        $languages = Language::all();
+        $movie = History::where("user_id",auth()->user()->id)->where('type','movie')->with("movie")->limit(10)->get();
+        $series = History::where("user_id",auth()->user()->id)->where('type','series')->with("series")->limit(10)->get();
+   
+        
+        return view('continuwhatch', [
+            'series' => $series,
+            "movies"=>$movie,
+        'languages' => $languages,
+    
+            'cats' => $cats,
+        ]);
 
+    }
     public function index($userid)
     {
         $data = History::where("user_id",$userid)

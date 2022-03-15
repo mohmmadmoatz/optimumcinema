@@ -20,6 +20,11 @@ class MoviesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
+
+ 
+
+
     public function showmovieafteraddtofav($id){
 
         $item = new MovieFav();

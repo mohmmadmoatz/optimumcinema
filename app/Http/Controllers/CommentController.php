@@ -16,6 +16,7 @@ class CommentController extends Controller
     {
         //
         $data= Comment::where('movie_id',$id)
+        ->with("user:id,name")
         ->where("type",$type)
         ->get();
       
@@ -24,6 +25,24 @@ class CommentController extends Controller
                 'data' => $data
             ]);
         
+    }
+
+    public function all()
+    {
+        $data= Comment::with("user:id,name")
+        ->get();
+         return response()->json([
+                'success' => true,
+                'data' => $data
+            ]);
+    }
+
+    public function delete($id)
+    {
+        $data= Comment::find($id)->delete();
+        return response()->json([
+            'success' => true
+        ]);
     }
 
 

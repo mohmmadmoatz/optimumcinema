@@ -7,6 +7,23 @@
 
 
 <head>
+  <style>
+    :root {
+  --default: 20px;
+}
+
+.plyr__caption{
+    font-size:var(--default)
+}
+
+.plyr__video-wrapper::before {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 10;
+  content: url('http://192.168.43.203/optimumcinema/public/img/wat.png');
+}
+  </style>
   <!-- Required meta tags -->
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
 
@@ -261,9 +278,7 @@
   <!-- Optional JavaScript -->
 
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 
 <script>

@@ -23,7 +23,7 @@
         @for($i=0;$i<count($movies);$i++)
 
         <div class="item">
-            <a href="{{route('moviedetails',$movies[$i]['movie']["id"])}}">
+            <a href="{{route('moviedetails',$movies[$i]['movie']["id"])}}?duration={{$movies[$i]["last_duration"]}}">
 
 
             
@@ -88,7 +88,7 @@
 
       <div class="item">
      
-          <a href=" {{route('playepi',[$series[$i]['series']["id"],$series[$i]['epi_id']])}}?season={{$series[$i]['season_id']}}">
+          <a href=" {{route('playepi',[$series[$i]['series']["id"],$series[$i]['epi_id']])}}?season={{$series[$i]['season_id']}}&duration={{$series[$i]["last_duration"]}}">
 
 
           

@@ -1,12 +1,36 @@
 @extends("app")
 
 @section("content")
+
 <div class="box" style="padding: 15px;">
 
     @if($epi)
    
+    @php
+    $index = $episodes->search(function($epo) use($epi){
+    return $epo->id === $epi->id;
+    });
+
+
+    $length = count($episodes);
+
+
+    if($index == $length -1){
+        $nextEpiIndex ="";
+
+    }else{
+        $nextEpiIndex =route('playepi',[$series->id,$episodes[$index + 1]->id])  . "?season=" . $episodes[$index + 1]->season_id;
+
+
+    }
+    if($index >0)
+    $prvEpiIndex =route('playepi',[$series->id,$episodes[$index - 1]->id]). "?season=" . $episodes[$index - 1]->season_id;
+    else
+    $prvEpiIndex = "";
+    @endphp
+
     <div  class="container video" style="padding-bottom: 20px;" >
-        <video id="player" playsinline controls ratio="16:9">
+        <video id="player" playsinline controls ratio="16:9"   @if($epi) autoplay @endif>
                   
                    
         </video>
@@ -271,6 +295,9 @@
 @endsection
 
 @section("script")
+
+
+
 <script>
 
 var url = new URL(location.href);
@@ -282,26 +309,169 @@ function addparam(key,value){
 
 
 
+function incSub() {
+    var r = document.querySelector(':root');
+    var rs = getComputedStyle(r);
+    value = rs.getPropertyValue('--default')
+    value = value.split("px")[0];
+    value = (value *1)  +4;
+    r.style.setProperty('--default', value + "px");
 
-var controls =
-[
-    'play-large', // The large play button in the center
-    'restart', // Restart playback
-    'rewind', // Rewind by the seek time (default 10 seconds)
-    'play', // Play/pause playback
-    'fast-forward', // Fast forward by the seek time (default 10 seconds)
-    'progress', // The progress bar and scrubber for playback and buffering
-    'current-time', // The current time of playback
-    'duration', // The full duration of the media
-    'mute', // Toggle mute
-    'volume', // Volume control
-    'captions', // Toggle captions
-    'settings', // Settings menu
-    'pip', // Picture-in-picture (currently Safari only)
-    'airplay', // Airplay (currently Safari only)
-    'download', // Show a download button with a link to either the current source or a custom URL you specify in your options
-    'fullscreen' // Toggle fullscreen
-];
+    
+  }
+
+  function decSub() {
+    var r = document.querySelector(':root');
+    var rs = getComputedStyle(r);
+    value = rs.getPropertyValue('--default')
+    value = value.split("px")[0];
+    value = (value *1)  -4;
+    r.style.setProperty('--default', value + "px");
+    
+   
+
+    
+  }
+
+
+const controls = `
+
+<div class="plyr__controls">
+
+<button onclick="incSub()" class="plyr__controls__item plyr__control" type="button" data-plyr="inc">
+    
+     <span>A+</span>
+
+    <span class="plyr__sr-only">Restart</span>
+ </button>
+
+ <button onclick="decSub()" class="plyr__controls__item plyr__control" type="button" data-plyr="inc">
+    
+     <span>A-</span>
+
+    <span class="plyr__sr-only">Restart</span>
+ </button>
+
+ <button class="plyr__controls__item plyr__control" type="button" data-plyr="restart">
+    <svg role="presentation" focusable="false">
+       <use xlink:href="#plyr-restart"></use>
+    </svg>
+    <span class="plyr__sr-only">Restart</span>
+ </button>
+ <button class="plyr__controls__item plyr__control" type="button" data-plyr="rewind">
+    <svg role="presentation" focusable="false">
+       <use xlink:href="#plyr-rewind"></use>
+    </svg>
+    <span class="plyr__sr-only">Rewind 10s</span>
+ </button>
+ <button class="plyr__controls__item plyr__control" type="button" data-plyr="play" aria-label="Play">
+    <svg class="icon--pressed" role="presentation" focusable="false">
+       <use xlink:href="#plyr-pause"></use>
+    </svg>
+    <svg class="icon--not-pressed" role="presentation" focusable="false">
+       <use xlink:href="#plyr-play"></use>
+    </svg>
+    <span class="label--pressed plyr__sr-only">Pause</span><span class="label--not-pressed plyr__sr-only">Play</span>
+ </button>
+ <button class="plyr__controls__item plyr__control" type="button" data-plyr="fast-forward">
+    <svg role="presentation" focusable="false">
+       <use xlink:href="#plyr-fast-forward"></use>
+    </svg>
+    <span class="plyr__sr-only">Forward 10s</span>
+ </button>
+ <div class="plyr__controls__item plyr__progress__container">
+    <div class="plyr__progress"><input data-plyr="seek" type="range" min="0" max="100" step="0.01" value="0" autocomplete="off" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="117.312" aria-valuenow="9.77944" id="plyr-seek" style="--value:8.34%;" seek-value="76.29284755620952" aria-valuetext="00:09 of 01:57"><progress class="plyr__progress__buffer" min="0" max="100" value="19.28447217675941" role="progressbar" aria-hidden="true">% buffered</progress><span class="plyr__tooltip" style="left: 76.2928%;">01:29</span></div>
+ </div>
+ <div class="plyr__controls__item plyr__time--current plyr__time" aria-label="Current time">00:09</div>
+ <div class="plyr__controls__item plyr__time--duration plyr__time" aria-label="Duration">01:57</div>
+ <div class="plyr__controls__item plyr__volume">
+    <button type="button" class="plyr__control" data-plyr="mute">
+       <svg class="icon--pressed" role="presentation" focusable="false">
+          <use xlink:href="#plyr-muted"></use>
+       </svg>
+       <svg class="icon--not-pressed" role="presentation" focusable="false">
+          <use xlink:href="#plyr-volume"></use>
+       </svg>
+       <span class="label--pressed plyr__sr-only">Unmute</span><span class="label--not-pressed plyr__sr-only">Mute</span>
+    </button>
+    <input data-plyr="volume" type="range" min="0" max="1" step="0.05" value="1" autocomplete="off" role="slider" aria-label="Volume" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" id="plyr-volume" aria-valuetext="100.0%" style="--value:100%;">
+ </div>
+ <button class="plyr__controls__item plyr__control plyr__control--pressed" type="button" data-plyr="captions">
+    <svg class="icon--pressed" role="presentation" focusable="false">
+       <use xlink:href="#plyr-captions-on"></use>
+    </svg>
+    <svg class="icon--not-pressed" role="presentation" focusable="false">
+       <use xlink:href="#plyr-captions-off"></use>
+    </svg>
+    <span class="label--pressed plyr__sr-only">Disable captions</span><span class="label--not-pressed plyr__sr-only">Enable captions</span>
+ </button>
+ <div class="plyr__controls__item plyr__menu">
+    <button aria-haspopup="true" aria-controls="plyr-settings" aria-expanded="false" type="button" class="plyr__control" data-plyr="settings">
+       <svg role="presentation" focusable="false">
+          <use xlink:href="#plyr-settings"></use>
+       </svg>
+       <span class="plyr__sr-only">Settings</span>
+    </button>
+    <div class="plyr__menu__container" id="plyr-settings" hidden="">
+       <div>
+          <div id="plyr-settings-home">
+             <div role="menu"><button data-plyr="settings" type="button" class="plyr__control plyr__control--forward" role="menuitem" aria-haspopup="true" hidden=""><span>Captions<span class="plyr__menu__value">Disabled</span></span></button><button data-plyr="settings" type="button" class="plyr__control plyr__control--forward" role="menuitem" aria-haspopup="true" hidden=""><span>Quality<span class="plyr__menu__value">undefined</span></span></button><button data-plyr="settings" type="button" class="plyr__control plyr__control--forward" role="menuitem" aria-haspopup="true"><span>Speed<span class="plyr__menu__value">Normal</span></span></button></div>
+          </div>
+          <div id="plyr-settings-captions" hidden="">
+             <button type="button" class="plyr__control plyr__control--back"><span aria-hidden="true">Captions</span><span class="plyr__sr-only">Go back to previous menu</span></button>
+             <div role="menu"></div>
+          </div>
+          <div id="plyr-settings-quality" hidden="">
+             <button type="button" class="plyr__control plyr__control--back"><span aria-hidden="true">Quality</span><span class="plyr__sr-only">Go back to previous menu</span></button>
+             <div role="menu"></div>
+          </div>
+          <div id="plyr-settings-speed" hidden="">
+             <button type="button" class="plyr__control plyr__control--back"><span aria-hidden="true">Speed</span><span class="plyr__sr-only">Go back to previous menu</span></button>
+             <div role="menu"><button data-plyr="speed" type="button" role="menuitemradio" class="plyr__control" aria-checked="false" value="0.5"><span>0.5×</span></button><button data-plyr="speed" type="button" role="menuitemradio" class="plyr__control" aria-checked="false" value="0.75"><span>0.75×</span></button><button data-plyr="speed" type="button" role="menuitemradio" class="plyr__control" aria-checked="true" value="1"><span>Normal</span></button><button data-plyr="speed" type="button" role="menuitemradio" class="plyr__control" aria-checked="false" value="1.25"><span>1.25×</span></button><button data-plyr="speed" type="button" role="menuitemradio" class="plyr__control" aria-checked="false" value="1.5"><span>1.5×</span></button><button data-plyr="speed" type="button" role="menuitemradio" class="plyr__control" aria-checked="false" value="1.75"><span>1.75×</span></button><button data-plyr="speed" type="button" role="menuitemradio" class="plyr__control" aria-checked="false" value="2"><span>2×</span></button></div>
+          </div>
+       </div>
+    </div>
+ </div>
+ <button class="plyr__controls__item plyr__control" type="button" data-plyr="pip">
+    <svg role="presentation" focusable="false">
+       <use xlink:href="#plyr-pip"></use>
+    </svg>
+    <span class="plyr__sr-only">PIP</span>
+ </button>
+ <a class="plyr__controls__item plyr__control" target="_blank" data-plyr="download" href="{{$epi->url ?? ''}}">
+    <svg role="presentation" focusable="false">
+       <use xlink:href="#plyr-download"></use>
+    </svg>
+    <span class="plyr__sr-only">Vimeo</span>
+ </a>
+
+ <a href="{{$prvEpiIndex ?? ""}}" style="position:absolute;margin-bottom:100px;margin-right:60px" class="plyr__controls__item plyr__control" type="button">
+    
+    <i class="fa fa-arrow-left"></i>
+
+    <span class="label--pressed plyr__sr-only">Exit fullscreen</span><span class="label--not-pressed plyr__sr-only">Enter fullscreen</span>
+ </a>
+
+ <a href="{{$nextEpiIndex ??""}}"style="position:absolute;margin-bottom:100px;margin-right:20px" class="plyr__controls__item plyr__control" type="button">
+    
+    <i class="fa fa-arrow-right"></i>
+
+    <span class="label--pressed plyr__sr-only">Exit fullscreen</span><span class="label--not-pressed plyr__sr-only">Enter fullscreen</span>
+ </a>
+
+
+ <button class="plyr__controls__item plyr__control" type="button" data-plyr="fullscreen">
+    <svg class="icon--pressed" role="presentation" focusable="false">
+       <use xlink:href="#plyr-exit-fullscreen"></use>
+    </svg>
+    <svg class="icon--not-pressed" role="presentation" focusable="false">
+       <use xlink:href="#plyr-enter-fullscreen"></use>
+    </svg>
+    <span class="label--pressed plyr__sr-only">Exit fullscreen</span><span class="label--not-pressed plyr__sr-only">Enter fullscreen</span>
+ </button>
+</div>
+
+`;
 
 var player = new Plyr('#player', { controls });
     player.source = {
@@ -334,6 +504,55 @@ var player = new Plyr('#player', { controls });
     },
   ],
 };
+
+setTimeout(() => {
+    @if(isset($_GET['duration']))
+var hms = "{{$_GET['duration']}}";
+hms = hms.split(".")[0];
+var a = hms.split(':'); // split it at the colons
+
+// minutes are worth 60 seconds. Hours are worth 60 minutes.
+var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]); 
+player.currentTime = seconds;
+player.play()
+@endif
+}, 1000);
+
+@if(isset($epi))
+
+window.onbeforeunload = function(e) {
+
+    var date = new Date(null);
+date.setSeconds(player.currentTime); // specify value for SECONDS here
+var result = date.toISOString().substr(11, 8);
+
+    $.ajax({
+    url: "{{route('hist')}}",
+    type: "POST",
+    data: {
+        'last_duration': result + ".0GS",
+        'user_id':{{auth()->user()->id}},
+        'id':{{$series->id}},
+        'season_id':{{$_GET["season"]}},
+        "type":"series",
+        "epi_id":{{$epi->id}}
+    },
+    timeout: 10000,
+    
+    success: function(t) {
+        t.suecces ? (toastr.success("Fikr sharh o'chirib tashlandi", "Muvafaqiyatli"), $("#mistakeModal").modal("hide"), $("#coment_" + a).remove()) : toastr.error.message("Sharh fikrni o'chirib bo'lmadi", "Xatolik ")
+    }
+ 
+});
+
+  
+    console.log("test")
+    return "Do you want to exit this page?";
+
+ 
+};
+@endif
+
 
 </script>
 

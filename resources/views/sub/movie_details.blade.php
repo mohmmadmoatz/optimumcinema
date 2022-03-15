@@ -415,19 +415,13 @@ player.source = {
   ],
   
   tracks: [
-    {
-        
-      kind: 'captions',
-      label: 'English',
-      srclang: 'en',
-      src: '/path/to/captions.en.vtt',
-      default: true,
-    },
+   
     {
       kind: 'captions',
       label: 'عربي',
       srclang: 'ar',
       src: '{{$movie->vvt}}',
+      default: true,
     },
   ],
 };

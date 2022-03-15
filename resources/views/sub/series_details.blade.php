@@ -488,19 +488,13 @@ var player = new Plyr('#player', { controls });
   ],
   
   tracks: [
-    {
-        
-      kind: 'captions',
-      label: 'English',
-      srclang: 'en',
-      
-      default: true,
-    },
+ 
     {
       kind: 'captions',
       label: 'عربي',
       srclang: 'ar',
       src: '{{$epi->subtitle??''}}',
+      default: true,
     },
   ],
 };

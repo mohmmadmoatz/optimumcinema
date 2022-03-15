@@ -519,7 +519,8 @@ player.play()
 }, 1000);
 
 @if(isset($epi))
-@if(auth()->user)
+
+@if(Auth()->user())
 
 window.onbeforeunload = function(e) {
 

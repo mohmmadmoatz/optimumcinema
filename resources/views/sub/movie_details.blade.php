@@ -447,7 +447,7 @@ player.play()
 
 
 
-@if(auth()->user)
+@if(Auth()->user())
 window.onbeforeunload = function(e) {
 
   if(player.currentTime){

@@ -21,7 +21,7 @@
   top: 5px;
   left: 5px;
   z-index: 10;
-  content: url('http://192.168.43.203/optimumcinema/public/img/wat.png');
+  content: url('{{asset("img/wat.png")}}');
 }
   </style>
   <!-- Required meta tags -->

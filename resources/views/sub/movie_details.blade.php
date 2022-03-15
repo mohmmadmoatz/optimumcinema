@@ -463,7 +463,7 @@ var result = date.toISOString().substr(11, 8);
     type: "POST",
     data: {
         'last_duration': result + ".0mv",
-        'user_id':{{auth()->user()->id ??}},
+        'user_id':{{auth()->user()->id}},
         'id':{{$movie->id}},
         "type":"movie",
      

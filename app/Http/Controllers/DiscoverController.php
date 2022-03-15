@@ -111,6 +111,7 @@ class DiscoverController extends Controller
         $seasons = seriesSeasons::where("series_id","$id")->get();
         $seriess = series::where('series_cat','like','%'.$series->series_cat.'%')
         ->where('id','!=',$id)
+        ->limit(10)
        ->get();
         $selectedseason = $seasons->first()->id;
         if(isset($_GET['season'])){

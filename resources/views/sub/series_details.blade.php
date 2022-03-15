@@ -519,6 +519,7 @@ player.play()
 }, 1000);
 
 @if(isset($epi))
+@if(auth()->user)
 
 window.onbeforeunload = function(e) {
 
@@ -551,6 +552,7 @@ var result = date.toISOString().substr(11, 8);
 
  
 };
+@endif
 @endif
 
 

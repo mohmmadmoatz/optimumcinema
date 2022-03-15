@@ -447,7 +447,7 @@ player.play()
 
 
 
-
+@if(auth()->user)
 window.onbeforeunload = function(e) {
 
   if(player.currentTime){
@@ -463,7 +463,7 @@ var result = date.toISOString().substr(11, 8);
     type: "POST",
     data: {
         'last_duration': result + ".0mv",
-        'user_id':{{auth()->user()->id}},
+        'user_id':{{auth()->user()->id ??}},
         'id':{{$movie->id}},
         "type":"movie",
      
@@ -482,6 +482,8 @@ var result = date.toISOString().substr(11, 8);
 
   }
 };
+
+@endif
 
 
 </script>

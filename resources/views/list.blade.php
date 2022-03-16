@@ -68,7 +68,9 @@
 </div>
 @endif
     @endforeach
-
+    <div class="container">
+      {{ $data->links("pagination::bootstrap-4") }}
+     </div>
   </div>
 
 

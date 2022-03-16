@@ -366,16 +366,16 @@ public function list($name){
     $cats = moviecat::all();
 
     if($name=="الأفلام المميزة"){
-        $data = movies::where('boxoffice',1)->orderBy('id', 'desc')->take(10)->get();
+        $data = movies::where('boxoffice',1)->orderBy('id', 'desc')->paginate(20);
 
     }else if($name=="الأفلام المضافة حديثا"){
-        $data = movies::orderBy('id', 'desc')->take(20)->get();
+        $data = movies::orderBy('id', 'desc')->paginate(20);
 
     }else if($name=="المسلسلات المضافة حديثا"){
-        $data = series::orderBy('id', 'desc')->take(20)->get();
+        $data = series::orderBy('id', 'desc')->paginate(20);
 
     }else{
-        $data = series::inRandomOrder()->take(10)->get();
+        $data = series::inRandomOrder()->paginate(20);
 
     }
 

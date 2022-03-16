@@ -46,10 +46,23 @@
 
 
 
+                    <div class="row">
+                     <div class="col">
+                        <h5 style="color:white;font-weight:700"> {{$movie->rate}}
+                            <span class="brand" style="font-size:17px">IMDb</span>
+                        </h5>
+                     </div>
+                     <div class="col" style="text-align: left;">
+                        <h5 style="color:white;font-weight:700"> 
+                            <i class="fa fa-eye" style="padding-left: 4;"></i>
+                            {{$movie->views}}
+                           
+                        </h5>
+                     </div>
+                    </div>         
+                   
 
-                    <h5 style="color:white;font-weight:700"> {{$movie->rate}}
-                        <span class="brand" style="font-size:17px">IMDb</span>
-                    </h5>
+                 
 
                     <h6 style="color: grey;font-size: 14px;">
 
@@ -101,10 +114,28 @@
                         }
                     </style>
                     <div class="row">
+                       
                         <div class="col-md-4">
-                            <a  href="#top" class="btn btncinema" id="watchbtn" @click="video=true;player.play();setTimeout(function(){$('body').getNiceScroll().resize();},150)"> <i class="fa fa-play" ></i> شاهد </a>
+                            @php
+                            if(auth()->user()){
+            $userid= auth()->user()->id;
+        }else{
+            $userid=  Session::getId();
+        }
+                            $historyid = App\Models\History::where("type","movie")->where("model_id",$movie->id)
+                            ->where("user_id",$userid)
+                            ->first();
+                            @endphp
 
+                            @if(!$historyid)
+                            
+                            <a  href="#top" class="btn btncinema" id="watchbtn" @click="video=true;player.play();setTimeout(function(){$('body').getNiceScroll().resize();},150)"> <i class="fa fa-play" ></i> شاهد  </a>
+                            @else
+                            <a  class="btn btncinema" id="watchbtn"  href="{{route('moviedetails',$movie->id)}}?duration={{$historyid->last_duration}}"> <i class="fa fa-play" ></i> متابعة   </a>
+
+                            @endif
                         </div>
+
                         <div class="col-md-1"> </div>
                         @guest
                         <div></div>
@@ -274,6 +305,23 @@ document.getElementById("ds").src =  "https://www.youtube.com/embed/" + document
     
   }
 
+  function listenToTime(time) {
+    var skip = document.getElementById("skip");
+    var seconds = {{$movie->skiptime}}
+    if(time > seconds *1){
+        skip.style.display = "none"
+    }else{
+        skip.style.display = "block"
+
+    }
+  }
+
+  function skipTime() {
+      var seconds = {{$movie->skiptime}}
+      player.currentTime = seconds;
+      player.play()
+   }
+
   const controls = `
 
   <div class="plyr__controls">
@@ -354,6 +402,11 @@ document.getElementById("ds").src =  "https://www.youtube.com/embed/" + document
       </svg>
       <span class="plyr__sr-only">PIP</span>
    </button>
+
+   <button onclick="skipTime()" id="skip" class="plyr__controls__item plyr__control" type="button" >
+     تخطي المقدمة
+   </button>
+
    <a class="plyr__controls__item plyr__control" target="_blank" data-plyr="download" href="{{$movie->url}}">
       <svg role="presentation" focusable="false">
          <use xlink:href="#plyr-download"></use>
@@ -393,7 +446,12 @@ document.getElementById("ds").src =  "https://www.youtube.com/embed/" + document
     'fullscreen' // Toggle fullscreen
 ];
 
-var player = new Plyr('#player', { controls });
+
+ var player = new Plyr('#player', {
+  title: 'Example Title',
+  controls:controls,
+  captions:{ active: true, language: 'ar', update: true }
+});
 // var player = Plyr.setup('#player', {
 // 	debug: 		true,
 // 	title: 		'Video demo',
@@ -415,7 +473,6 @@ player.source = {
   ],
   
   tracks: [
-   
     {
       kind: 'captions',
       label: 'عربي',
@@ -425,6 +482,11 @@ player.source = {
     },
   ],
 };
+
+player.on('timeupdate', event => {
+    listenToTime(event.detail.plyr.currentTime)
+    
+  });
 
 setTimeout(() => {
     @if(isset($_GET['duration']))
@@ -441,7 +503,14 @@ player.play()
 
 
 
-@if(Auth()->user())
+@php
+if(auth()->user()){
+            $userid= auth()->user()->id;
+        }else{
+            $userid=  Session::getId();
+        }
+@endphp
+
 window.onbeforeunload = function(e) {
 
   if(player.currentTime){
@@ -457,7 +526,7 @@ var result = date.toISOString().substr(11, 8);
     type: "POST",
     data: {
         'last_duration': result + ".0mv",
-        'user_id':{{auth()->user()->id}},
+        'user_id':'{{$userid}}',
         'id':{{$movie->id}},
         "type":"movie",
      
@@ -477,7 +546,7 @@ var result = date.toISOString().substr(11, 8);
   }
 };
 
-@endif
+
 
 
 </script>

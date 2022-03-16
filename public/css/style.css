@@ -326,9 +326,14 @@ ul.CTAs a {
   }
 
   .mvtitle{
-      font-size: 17px;
-      font-family: 'Markazi Text', serif;
-      color: white;
+    font-size: 17px;
+    font-family: 'Markazi Text', serif;
+    color: white;
+    width: 50px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
   }
 
   .mvsubtitle{
@@ -556,4 +561,16 @@ ul.CTAs a {
 
 #owl-demo {
     display: grid !important;
+}
+
+#skip {
+    position: absolute;
+    bottom: 43px;
+    background: #00000085;
+    border-radius: 8px;
+    
+}
+
+#skip:hover {
+background-color: red;
 }

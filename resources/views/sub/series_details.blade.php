@@ -57,7 +57,7 @@
 
 
 
-
+                    
                     <h5 style="color:white;font-weight:700"> {{$series->series_rate}}
                         <span class="brand" style="font-size:17px">IMDb</span>
                     </h5>
@@ -114,7 +114,23 @@
                     </style>
                     <div class="row">
                         <div class="col-md-4">
-                            <button class="btn btncinema"> <i class="fa fa-play"></i> شاهد </button>
+                            
+                            @php
+                            if(auth()->user()){
+            $userid= auth()->user()->id;
+        }else{
+            $userid=  Session::getId();
+        }
+                            $historyid = App\Models\History::where("type","series")->where("model_id",$series->id)
+                            ->where("user_id",$userid)
+                            ->first();
+                            @endphp
+
+                            
+                            @if($historyid)
+
+                            <a  class="btn btncinema" id="watchbtn"   href=" {{route('playepi',[$historyid->model_id,$historyid->epi_id])}}?season={{$historyid->season_id}}&duration={{$historyid->last_duration}}"> <i class="fa fa-play" ></i> متابعة   </a>
+                            @endif
 
                         </div>
                         @guest
@@ -405,33 +421,7 @@ const controls = `
     </svg>
     <span class="label--pressed plyr__sr-only">Disable captions</span><span class="label--not-pressed plyr__sr-only">Enable captions</span>
  </button>
- <div class="plyr__controls__item plyr__menu">
-    <button aria-haspopup="true" aria-controls="plyr-settings" aria-expanded="false" type="button" class="plyr__control" data-plyr="settings">
-       <svg role="presentation" focusable="false">
-          <use xlink:href="#plyr-settings"></use>
-       </svg>
-       <span class="plyr__sr-only">Settings</span>
-    </button>
-    <div class="plyr__menu__container" id="plyr-settings" hidden="">
-       <div>
-          <div id="plyr-settings-home">
-             <div role="menu"><button data-plyr="settings" type="button" class="plyr__control plyr__control--forward" role="menuitem" aria-haspopup="true" hidden=""><span>Captions<span class="plyr__menu__value">Disabled</span></span></button><button data-plyr="settings" type="button" class="plyr__control plyr__control--forward" role="menuitem" aria-haspopup="true" hidden=""><span>Quality<span class="plyr__menu__value">undefined</span></span></button><button data-plyr="settings" type="button" class="plyr__control plyr__control--forward" role="menuitem" aria-haspopup="true"><span>Speed<span class="plyr__menu__value">Normal</span></span></button></div>
-          </div>
-          <div id="plyr-settings-captions" hidden="">
-             <button type="button" class="plyr__control plyr__control--back"><span aria-hidden="true">Captions</span><span class="plyr__sr-only">Go back to previous menu</span></button>
-             <div role="menu"></div>
-          </div>
-          <div id="plyr-settings-quality" hidden="">
-             <button type="button" class="plyr__control plyr__control--back"><span aria-hidden="true">Quality</span><span class="plyr__sr-only">Go back to previous menu</span></button>
-             <div role="menu"></div>
-          </div>
-          <div id="plyr-settings-speed" hidden="">
-             <button type="button" class="plyr__control plyr__control--back"><span aria-hidden="true">Speed</span><span class="plyr__sr-only">Go back to previous menu</span></button>
-             <div role="menu"><button data-plyr="speed" type="button" role="menuitemradio" class="plyr__control" aria-checked="false" value="0.5"><span>0.5×</span></button><button data-plyr="speed" type="button" role="menuitemradio" class="plyr__control" aria-checked="false" value="0.75"><span>0.75×</span></button><button data-plyr="speed" type="button" role="menuitemradio" class="plyr__control" aria-checked="true" value="1"><span>Normal</span></button><button data-plyr="speed" type="button" role="menuitemradio" class="plyr__control" aria-checked="false" value="1.25"><span>1.25×</span></button><button data-plyr="speed" type="button" role="menuitemradio" class="plyr__control" aria-checked="false" value="1.5"><span>1.5×</span></button><button data-plyr="speed" type="button" role="menuitemradio" class="plyr__control" aria-checked="false" value="1.75"><span>1.75×</span></button><button data-plyr="speed" type="button" role="menuitemradio" class="plyr__control" aria-checked="false" value="2"><span>2×</span></button></div>
-          </div>
-       </div>
-    </div>
- </div>
+
  <button class="plyr__controls__item plyr__control" type="button" data-plyr="pip">
     <svg role="presentation" focusable="false">
        <use xlink:href="#plyr-pip"></use>
@@ -514,7 +504,14 @@ player.play()
 
 @if(isset($epi))
 
-@if(Auth()->user())
+
+@php
+if(auth()->user()){
+            $userid= auth()->user()->id;
+        }else{
+            $userid=  Session::getId();
+        }
+@endphp
 
 window.onbeforeunload = function(e) {
 
@@ -527,7 +524,7 @@ var result = date.toISOString().substr(11, 8);
     type: "POST",
     data: {
         'last_duration': result + ".0GS",
-        'user_id':{{auth()->user()->id}},
+        'user_id':'{{$userid}}',
         'id':{{$series->id}},
         'season_id':{{$_GET["season"]}},
         "type":"series",
@@ -536,7 +533,7 @@ var result = date.toISOString().substr(11, 8);
     timeout: 10000,
     
     success: function(t) {
-        t.suecces ? (toastr.success("Fikr sharh o'chirib tashlandi", "Muvafaqiyatli"), $("#mistakeModal").modal("hide"), $("#coment_" + a).remove()) : toastr.error.message("Sharh fikrni o'chirib bo'lmadi", "Xatolik ")
+
     }
  
 });
@@ -548,7 +545,7 @@ var result = date.toISOString().substr(11, 8);
  
 };
 @endif
-@endif
+
 
 
 </script>

@@ -29,8 +29,11 @@
   <!-- Required meta tags -->
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
 
+  
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="{{asset('normalize.css')}}">
 
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Markazi+Text:wght@400;700&display=swap" rel="stylesheet">
@@ -52,15 +55,7 @@
 
   <link rel="stylesheet" href="https://cdn.plyr.io/3.6.4/plyr.css" />
 
-  <style>
-    .float-right{
-      float: right!important;
-    white-space: nowrap;
-    width: 50px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    }
-  </style>
+  
 
 
   <title>Cinemana</title>
@@ -83,34 +78,7 @@
       </div>
 
       <ul class="list-unstyled components">
-      @guest
-      <li >
-          <a href="{{route('loginweb')}}">
-            <i class="fa fa-fire"></i>
-            <span>تسجيل الدخول</span>
-
-          </a>
-
-          </li>
-
-          @else
-
-
-   <li >
-          <a  href="{{ route('logout') }}"      onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-            <i class="fa fa-fire"></i>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-              
-              @csrf
-          </form>
-            <span>تسجيل خروج</span>
-
-          </a>
-
-          </li>
-
-          @endguest
+     
         <li class="@isActive('home', 'active')">
           <a href="@route('home')">
             <i class="fas fa-home"></i>
@@ -211,6 +179,7 @@
           </a>
 
         </li>
+        @endguest
         <li>
           <a href="{{route('continuwhatch')}}">
             <i class="fa fa-bookmark"></i>
@@ -221,7 +190,37 @@
 
         </li>
         <hr>
-        @endguest
+       
+
+        @guest
+        <li >
+            <a href="{{route('loginweb')}}">
+              <i class="fa fa-key"></i>
+              <span>تسجيل الدخول</span>
+  
+            </a>
+  
+            </li>
+  
+            @else
+  
+  
+            
+     <li >
+            <a  href="{{ route('logout') }}"      onclick="event.preventDefault();
+                                                       document.getElementById('logout-form').submit();">
+              <i class="fa fa-arrow-right-from-bracket"></i>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                
+                @csrf
+            </form>
+              <span>تسجيل خروج</span>
+  
+            </a>
+  
+            </li>
+  
+            @endguest
 
         <li style="text-align: center;">
           <img width="30px" src="{{asset('img/facebook-hover.svg')}}">
@@ -367,6 +366,22 @@ function serieslang(id) {
             }
       });
     });
+
+    function checkRtl( character ) {
+    var RTL = ['ا','ب','پ','ت','س','ج','چ','ح','خ','د','ذ','ر','ز','ژ','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ک','گ','ل','م','ن','و','ه','ی','أ'];
+    return RTL.indexOf( character ) > -1;
+};
+
+var divs = document.getElementsByClassName( 'mvtitle' );
+
+for ( var index = 0; index < divs.length; index++ ) {
+    if( checkRtl( divs[index].textContent[0] ) ) {
+        divs[index].dir = 'rtl';
+    } else {
+        divs[index].dir = 'ltr';
+    };
+    console.log()
+};
 
   </script>
 @yield("script")

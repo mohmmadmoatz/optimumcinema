@@ -6,15 +6,22 @@ use Illuminate\Http\Request;
 use App\Models\History;
 use App\Models\language;
 use App\Models\moviecat;
-
+use Session;
 class HistoryController extends Controller
 {
     public function continuwhatch()
     {
+        if(auth()->user()){
+            $userid= auth()->user()->id;
+        }else{
+            $userid=  Session::getId();
+        }
+       
+
         $cats = moviecat::all();
         $languages = language::all();
-        $movie = History::where("user_id",auth()->user()->id)->where('type','movie')->with("movie")->limit(10)->get();
-        $series = History::where("user_id",auth()->user()->id)->where('type','series')->with("series")->limit(10)->get();
+        $movie = History::where("user_id",$userid)->where('type','movie')->with("movie")->limit(10)->get();
+        $series = History::where("user_id",$userid)->where('type','series')->with("series")->limit(10)->get();
    
         
         return view('continuwhatch', [

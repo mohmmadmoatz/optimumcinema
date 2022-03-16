@@ -307,7 +307,7 @@ document.getElementById("ds").src =  "https://www.youtube.com/embed/" + document
 
   function listenToTime(time) {
     var skip = document.getElementById("skip");
-    var seconds = {{$movie->skiptime}}
+    var seconds = '{{$movie->skiptime}}';
     if(time > seconds *1){
         skip.style.display = "none"
     }else{

@@ -450,7 +450,8 @@ document.getElementById("ds").src =  "https://www.youtube.com/embed/" + document
  var player = new Plyr('#player', {
   title: 'Example Title',
   controls:controls,
-  captions:{ active: true, language: 'ar', update: true }
+  captions:{ active: true, language: 'ar', update: true },
+  storage:{enabled: false}
 });
 // var player = Plyr.setup('#player', {
 // 	debug: 		true,

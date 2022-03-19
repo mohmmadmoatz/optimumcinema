@@ -92,8 +92,13 @@ Route::get('notify/get/{userid}', 'NotifyController@whereuser');
 //Movies  Api
 
 Route::get('getcolleoectionmivies/{id}', 'MoviesController@getcolleoectionmivies');
+
+Route::get('getcollectionseries/{id}', 'SeriesController@getcollectionseries');
+
 Route::get('viewcountermovie/{id}', 'MoviesController@viewcountermovie');
+
 Route::get('addmovietocollection/{id}/{collectionid}', 'MoviesController@addmovietocollection');
+Route::get('addseriestocollection/{id}/{collectionid}', 'SeriesController@addseriestocollection');
 
 Route::get('movies', 'MoviesController@index');
 Route::get('movieget/{id}', 'MoviesController@showmovieapi');
@@ -107,6 +112,8 @@ Route::get('movies/random', 'MoviesController@getrandom');
 Route::get('movies/search/{name}', 'MoviesController@searchmovie')->name("searchmovie");
 Route::get('movies/searchtocollection/{name}', 'MoviesController@searchtocollection');
 Route::get('movies/deletemoviecollection/{id}', 'MoviesController@deletemoviecollection');
+
+Route::get('series/deleteseriescollection/{id}', 'SeriesController@deleteseriescollection');
 
 Route::post('movies', 'MoviesController@store');
 Route::post('movies/{id}', 'MoviesController@update');
@@ -183,7 +190,11 @@ Route::delete('language/{id}', 'LanguageController@destroy');
 
 
 Route::get('showimhome/{id}/{data}', 'CollectionController@showimhome');
+
+Route::get('showimhomeseries/{id}/{data}', 'CollectionController@showimhomeseries');
+
 Route::get('collection', 'CollectionController@index');
+Route::get('collection2', 'CollectionController@index2');
 Route::get('getcollections', 'CollectionController@getcollections');
 
 
@@ -191,6 +202,10 @@ Route::get('getcollections', 'CollectionController@getcollections');
 Route::post('collection', 'CollectionController@store');
 Route::post('collection/{id}', 'CollectionController@update');
 Route::delete('collection/{id}', 'CollectionController@destroy');
+
+Route::post('collection2', 'CollectionController@store2');
+Route::post('collection2/{id}', 'CollectionController@update2');
+Route::delete('collection2/{id}', 'CollectionController@destroy2');
 
 
 //end

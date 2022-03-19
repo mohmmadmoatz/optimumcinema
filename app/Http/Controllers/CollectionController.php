@@ -27,6 +27,18 @@ class CollectionController extends Controller
         
     }
 
+    public function index2()
+    {
+        //
+        $data= SeriesCollection::get();
+      
+         return response()->json([
+                'success' => true,
+                'data' => $data
+            ]);
+        
+    }
+
     public function getcollections(){
         $data = Collection::with("movies")
 
@@ -82,6 +94,25 @@ class CollectionController extends Controller
         
     }
 
+    public function store2(Request $request)
+    {
+        //
+        
+        $data= new SeriesCollection();
+        $data->name=$request->name;
+          if ($data->save())
+            return response()->json([
+                'success' => true,
+                'data' => $data->toArray()
+            ]);
+        else
+            return response()->json([
+                'success' => false,
+                'message' => '$data could not be added'
+            ], 500);
+        
+    }
+
     /**
      * Display the specified resource.
      *
@@ -96,6 +127,25 @@ class CollectionController extends Controller
         //
         
         $data= Collection::find($id);
+        $data->name=$request->name;
+          if ($data->save())
+            return response()->json([
+                'success' => true,
+                'data' => $data->toArray()
+            ]);
+        else
+            return response()->json([
+                'success' => false,
+                'message' => '$data could not be added'
+            ], 500);
+        
+    }
+
+    public function update2(Request $request,$id)
+    {
+        //
+        
+        $data= SeriesCollection::find($id);
         $data->name=$request->name;
           if ($data->save())
             return response()->json([
@@ -129,6 +179,25 @@ class CollectionController extends Controller
         
     }
 
+    public function showimhomeseries($id,$dataa)
+    {
+        //
+        
+        $data= SeriesCollection::find($id);
+        $data->showinhome = $dataa;
+          if ($data->save())
+            return response()->json([
+                'success' => true,
+                'data' => $data->toArray()
+            ]);
+        else
+            return response()->json([
+                'success' => false,
+                'message' => '$data could not be added'
+            ], 500);
+        
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -142,6 +211,16 @@ class CollectionController extends Controller
         
         $data->delete();
         $data2 = movies::where('moviecollection','=',$id)->update(['moviecollection' => null]);
+ 
+    }
+
+    public function destroy2($id)
+    {
+        //
+        $data= SeriesCollection::find($id);
+        
+        $data->delete();
+        $data2 = series::where('collection_id','=',$id)->update(['collection_id' => null]);
  
     }
 }

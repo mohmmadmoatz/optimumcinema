@@ -39,7 +39,37 @@ class SeriesController extends Controller
         }
         
         return response()->json(['success'=>true], 200);
-    } 
+    }
+    
+    public function addseriestocollection($id,$collecid){
+        $data =  series::find($id);
+        $data->collection_id = $collecid;
+        $data->save();
+
+        return response()->json([
+                'success' => true,
+                'data' => $data
+            ]);
+    }
+
+    public function getcollectionseries($collecid){
+        $data = series::where('collection_id','=',$collecid)->get();
+        return response()->json([
+                'success' => true,
+                'data' => $data
+            ]);
+    }
+
+    public function deleteseriescollection($id){
+        $data =  series::find($id);
+        $data->collection_id = null;
+        $data->save();
+
+        return response()->json([
+                'success' => true,
+                'data' => $data
+            ]);
+    }
 
     public function getFav($user)
     {

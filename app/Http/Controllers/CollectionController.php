@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\collection;
+use App\Models\SeriesCollection;
 use Illuminate\Http\Request;
 use App\Models\movies;
 use App\Models\moviecat;
@@ -43,7 +44,20 @@ class CollectionController extends Controller
     
          return view('collection',[
                 'success' => true,
-        'cats' => $cats,
+                 'cats' => $cats,
+                'data' => $collections
+            ]);
+        
+    }
+
+    public function collectionback2($id)
+    {
+        $cats = moviecat::all();
+        $collections = SeriesCollection::where('id',$id)->with("serieses")->get();
+    
+         return view('seriescollection',[
+                'success' => true,
+                 'cats' => $cats,
                 'data' => $collections
             ]);
         

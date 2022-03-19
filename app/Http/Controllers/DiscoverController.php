@@ -18,6 +18,23 @@ use Redirect;
 class DiscoverController extends Controller
 {
     //
+
+    public function searchApi($query)
+    {
+        $movies = movies::where("name",'like','%' . $query . "%")
+        ->select("name","id","poster")
+        ->limit(5)->get();
+
+        $series = series::where("name",'like','%' . $query . "%")
+        ->select("name","id","poster")
+        ->limit(5)->get();
+
+        
+
+        $movies->merge($series);
+        return response()->json(['movies'=>$movies,'series'=>$series], 200);
+    }
+
     public function movies()
     {
         $cats = moviecat::all();

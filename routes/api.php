@@ -20,6 +20,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('addToHistory', 'HistoryController@addToHistory')->name("hist");
 
+Route::get('search/{query}', 'DiscoverController@searchApi');
+
+
 Route::get('history/{id}', 'HistoryController@index');
 
 Route::post('request', 'ItemRequestController@store');
@@ -101,7 +104,7 @@ Route::get('movies/exclusive', 'MoviesController@getexv');
 Route::get('movies/newadd', 'MoviesController@getnew');
 
 Route::get('movies/random', 'MoviesController@getrandom');
-Route::get('movies/search/{name}', 'MoviesController@searchmovie');
+Route::get('movies/search/{name}', 'MoviesController@searchmovie')->name("searchmovie");
 Route::get('movies/searchtocollection/{name}', 'MoviesController@searchtocollection');
 Route::get('movies/deletemoviecollection/{id}', 'MoviesController@deletemoviecollection');
 

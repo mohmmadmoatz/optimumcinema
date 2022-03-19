@@ -29,6 +29,7 @@ Route::get('/addseriesfav/{id}',"DiscoverController@addseriesfav")->name("addser
 Route::get('/series/{id}/{epi?}',"DiscoverController@showseries")->name("playepi");
 
 Route::get('/collection/{id}',"CollectionController@collectionback")->name("collection");
+Route::get('/seriescollection/{id}',"CollectionController@collectionback2")->name("collection");
 
 
 Route::get('/removefav/{id}',"MoviesController@removefav")->name("removefav");

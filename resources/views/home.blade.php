@@ -378,6 +378,67 @@
 @endfor
 
 
+
+@foreach(App\Models\SeriesCollection::get() as $item)
+<div class="collection">
+  <h4> <a href="{{URL::to('seriescollection' . '/' . $item->id )}} "> {{$item->name}}</a> </h4>
+</div>
+<div class="container-fluid row">
+  <div id="owl-demo" class="owl-carousel owl-theme">
+
+
+    @foreach($item->serieses as $x)
+
+    <div class="item">
+        <a href="{{route('seriesdetails',$x->id)}}">
+    
+    
+        
+      <div class="image">
+        <img src="{{$x->poster}}" style = "height:263px">
+        <div class="middle">
+        
+          <button class="btn btn-danger" style="margin-top:50% !important">
+          <i class="fa fa-play"></i>
+          شاهد الان
+          </button>
+        </div>
+      </div>
+    </a>
+      
+      <div class="row clearfix">
+          <div class="col float-right">
+            <span class="mvtitle">{{$x->name}}</span>
+          </div>
+          <div class="col-md-auto">
+             <span class="brand">IMdb</span> {{$x->series_rate}}
+          </div>
+          <div class="col-12">
+            <span class="mvsubtitle">{{$x->year == null? "  " : $x->year}} , {{getcategoryname( $x->series_cat ,$cats )}}</span>
+          </div>
+        </div>
+    
+    </div>
+    
+    
+    
+    @endforeach
+    
+    
+    
+    
+    
+    
+    </div>
+    </div>
+
+
+  </div>
+
+</div>
+
+@endforeach
+
     
     
     @endsection

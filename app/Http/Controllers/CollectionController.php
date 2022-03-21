@@ -48,6 +48,16 @@ class CollectionController extends Controller
               'data' => $data
           ]);
   }
+
+  public function getcollections2(){
+    $data = SeriesCollection::with("serieses")
+
+   ->paginate(5);
+   return response()->json([
+          'success' => true,
+          'data' => $data
+      ]);
+}
    
     public function collectionback($id)
     {

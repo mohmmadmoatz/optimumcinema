@@ -196,6 +196,7 @@ Route::get('showimhomeseries/{id}/{data}', 'CollectionController@showimhomeserie
 Route::get('collection', 'CollectionController@index');
 Route::get('collection2', 'CollectionController@index2');
 Route::get('getcollections', 'CollectionController@getcollections');
+Route::get('getcollections2', 'CollectionController@getcollections2');
 
 
 

@@ -27,8 +27,8 @@ class movies extends Model
         $newip = str_replace("93.191.114.168",$_SERVER['SERVER_ADDR'],$value);
         $newip = str_replace("10.24.24.206",$_SERVER['SERVER_ADDR'],$newip);
 
-        // return $newip;
-         return "";
+         return $newip;
+        
     }
     public function getVvtAttribute($value)
     {

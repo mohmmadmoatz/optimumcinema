@@ -379,10 +379,13 @@ public function list($name){
 
     }
 
+    
+
     return view('list', [
         'data' => $data,
         'cats' => $cats,
         'titlename' => $name,
+        
   
     ]);
 }

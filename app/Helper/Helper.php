@@ -14,7 +14,7 @@ function getcategoryname($value,$cats){
      
     }
     
-    return implode(",",$cat_in_string);
+    return implode(" ",$cat_in_string);
     
     }
 

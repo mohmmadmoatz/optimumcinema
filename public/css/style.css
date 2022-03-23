@@ -329,7 +329,7 @@ ul.CTAs a {
     font-size: 17px;
     font-family: 'Markazi Text', serif;
     color: white;
-    width: 50px;
+    width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

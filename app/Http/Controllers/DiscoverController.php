@@ -95,7 +95,7 @@ class DiscoverController extends Controller
                 $series = $series->orderBy("year","desc");
             }
             if($sortvalue == "الأعلى تقيما"){
-                $series = $series->orderBy("rate","desc");
+                $series = $series->orderBy("series_rate","desc");
 
             }
         }

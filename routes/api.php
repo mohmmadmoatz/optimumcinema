@@ -97,6 +97,8 @@ Route::get('getcollectionseries/{id}', 'SeriesController@getcollectionseries');
 
 Route::get('viewcountermovie/{id}', 'MoviesController@viewcountermovie');
 
+Route::get('viewcounterseries/{id}', 'MoviesController@viewcounterseries');
+
 Route::get('addmovietocollection/{id}/{collectionid}', 'MoviesController@addmovietocollection');
 Route::get('addseriestocollection/{id}/{collectionid}', 'SeriesController@addseriestocollection');
 

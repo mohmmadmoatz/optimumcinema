@@ -58,9 +58,22 @@
 
 
                     
-                    <h5 style="color:white;font-weight:700"> {{$series->series_rate}}
-                        <span class="brand" style="font-size:17px">IMDb</span>
-                    </h5>
+                
+
+                    <div class="row">
+                     <div class="col">
+                        <h5 style="color:white;font-weight:700"> {{$series->series_rate}}
+                            <span class="brand" style="font-size:17px">IMDb</span>
+                        </h5>
+                     </div>
+                     <div class="col" style="text-align: left;">
+                        <h5 style="color:white;font-weight:700"> 
+                            <i class="fa fa-eye" style="padding-left: 4;"></i>
+                            {{$series->views}}
+                           
+                        </h5>
+                     </div>
+                    </div>   
 
                     <h6 style="color: grey;font-size: 14px;">
                         {{$series->year}} , {{getcategoryname($series->series_cat ,App\Models\moviecat::all() )}}

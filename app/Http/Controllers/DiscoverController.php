@@ -62,7 +62,7 @@ class DiscoverController extends Controller
         }
 
 
-        $movies = $movies->paginate(20)->withQueryString();
+        $movies = $movies->paginate(24)->withQueryString();
 
         return view('discover', [
             'cats' => $cats,
@@ -101,7 +101,7 @@ class DiscoverController extends Controller
         }
 
 
-        $series = $series->paginate(20)->withQueryString();
+        $series = $series->paginate(24)->withQueryString();
 
         return view('discover', [
             'cats' => $cats,

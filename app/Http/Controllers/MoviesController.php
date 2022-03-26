@@ -366,16 +366,16 @@ public function list($name){
     $cats = moviecat::all();
 
     if($name=="الأفلام المميزة"){
-        $data = movies::where('boxoffice',1)->orderBy('id', 'desc')->paginate(20);
+        $data = movies::where('boxoffice',1)->orderBy('id', 'desc')->paginate(24);
 
     }else if($name=="الأفلام المضافة حديثا"){
-        $data = movies::orderBy('id', 'desc')->paginate(20);
+        $data = movies::orderBy('id', 'desc')->paginate(24);
 
     }else if($name=="المسلسلات المضافة حديثا"){
-        $data = series::orderBy('id', 'desc')->paginate(20);
+        $data = series::orderBy('id', 'desc')->paginate(24);
 
     }else{
-        $data = series::inRandomOrder()->paginate(20);
+        $data = series::inRandomOrder()->paginate(24);
 
     }
 
@@ -440,6 +440,18 @@ public function search($name){
                 'data' => $data
             ]);
     }
+
+    public function viewcounterseries($id){
+        $data =  series::find($id);
+        $data->views = $data->views+1;
+        $data->save();
+
+        return response()->json([
+                'success' => true,
+                'data' => $data
+            ]);
+    }
+
     public function addmovietocollection($id,$collecid){
         $data =  movies::find($id);
         $data->moviecollection = $collecid;

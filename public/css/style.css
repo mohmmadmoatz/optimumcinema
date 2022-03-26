@@ -337,9 +337,7 @@ ul.CTAs a {
   }
 
   .col-md-auto{
-    padding: 0;
-    position: absolute;
-    left: 0;
+  
 }
 
 @media (max-width: 768px){

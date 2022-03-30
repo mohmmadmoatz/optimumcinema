@@ -362,6 +362,23 @@ function incSub() {
     
   }
 
+  function listenToTime(time) {
+    var skip = document.getElementById("skip");
+    var seconds = '{{$epi->skiptime}}';
+    if(time > seconds *1){
+        skip.style.display = "none"
+    }else{
+        skip.style.display = "block"
+
+    }
+  }
+
+  function skipTime() {
+      var seconds = {{$epi->skiptime}}
+      player.currentTime = seconds;
+      player.play()
+   }
+
 
 const controls = `
 
@@ -441,6 +458,7 @@ const controls = `
     </svg>
     <span class="plyr__sr-only">PIP</span>
  </button>
+
  <a class="plyr__controls__item plyr__control" target="_blank" data-plyr="download" href="{{$epi->url ?? ''}}">
     <svg role="presentation" focusable="false">
        <use xlink:href="#plyr-download"></use>
@@ -461,6 +479,10 @@ const controls = `
 
     <span class="label--pressed plyr__sr-only">Exit fullscreen</span><span class="label--not-pressed plyr__sr-only">Enter fullscreen</span>
  </a>
+
+ <button style="bottom:95px" onclick="skipTime()" id="skip" class="plyr__controls__item plyr__control" type="button" >
+     تخطي المقدمة
+   </button>
 
 
  <button class="plyr__controls__item plyr__control" type="button" data-plyr="fullscreen">
@@ -501,6 +523,12 @@ var player = new Plyr('#player', { controls });
     },
   ],
 };
+
+
+player.on('timeupdate', event => {
+    listenToTime(event.detail.plyr.currentTime)
+    
+  });
 
 setTimeout(() => {
     @if(isset($_GET['duration']))

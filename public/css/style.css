@@ -329,11 +329,11 @@ ul.CTAs a {
     font-size: 17px;
     font-family: 'Markazi Text', serif;
     color: white;
-    width: 70%;
+    width: 80%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    
+    position: absolute;
   }
 
   .col-md-auto{

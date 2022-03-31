@@ -364,7 +364,11 @@ function incSub() {
 
   function listenToTime(time) {
     var skip = document.getElementById("skip");
+    @if($epi)
     var seconds = '{{$epi->skiptime}}';
+    @else
+    var seconds = 0;
+    @endif
     if(time > seconds *1){
         skip.style.display = "none"
     }else{
@@ -374,7 +378,11 @@ function incSub() {
   }
 
   function skipTime() {
+    @if($epi)
       var seconds = {{$epi->skiptime}}
+      @else
+      var seconds=0;
+      @endif
       player.currentTime = seconds;
       player.play()
    }

@@ -39,5 +39,13 @@ class movies extends Model
 
         return $newip;
     }
+
+    public function getSkiptimeAttribute($value)
+    {
+        if(!$value){
+            return "";
+        }
+        return $value;
+    }
     
 }

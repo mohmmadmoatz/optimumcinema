@@ -15,7 +15,7 @@ class SlideshowController extends Controller
     public function index()
     {
         //
-        $data= slideshow::get();
+        $data= slideshow::latest("id")->get();
       
          return response()->json([
                 'success' => true,

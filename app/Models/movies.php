@@ -17,7 +17,7 @@ class movies extends Model
     public function getPosterAttribute($value)
     {
         $result = parse_url($value);
-        $ip = $result['host'];
+        $ip = $result['host'] ?? "";
         $newip = str_replace($ip,$_SERVER['SERVER_ADDR'],$value);
         
         return $newip;
@@ -26,7 +26,7 @@ class movies extends Model
     public function getUrlAttribute($value)
     {
         $result = parse_url($value);
-        $ip = $result['host'];
+        $ip = $result['host'] ?? "";
         $newip = str_replace($ip,$_SERVER['SERVER_ADDR'],$value);
         
         return $newip;
@@ -35,7 +35,7 @@ class movies extends Model
     public function getVvtAttribute($value)
     {
         $result = parse_url($value);
-        $ip = $result['host'];
+        $ip = $result['host'] ?? "";
         $newip = str_replace($ip,$_SERVER['SERVER_ADDR'],$value);
         
         return $newip;

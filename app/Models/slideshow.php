@@ -12,7 +12,7 @@ class slideshow extends Model
     public function getUrlAttribute($value)
     {
         $result = parse_url($value);
-        $ip = $result['host'];
+        $ip = $result['host'] ?? "";
         $newip = str_replace($ip,$_SERVER['SERVER_ADDR'],$value);
         
         return $newip;
@@ -21,7 +21,7 @@ class slideshow extends Model
     public function getAppurlAttribute($value)
     {
         $result = parse_url($value);
-        $ip = $result['host'];
+        $ip = $result['host'] ?? "";
         $newip = str_replace($ip,$_SERVER['SERVER_ADDR'],$value);
         
         return $newip;
@@ -30,7 +30,7 @@ class slideshow extends Model
     public function getLinkAttribute($value)
     {
         $result = parse_url($value);
-        $ip = $result['host'];
+        $ip = $result['host'] ?? "";
         $newip = str_replace($ip,$_SERVER['SERVER_ADDR'],$value);
         
         return $newip;

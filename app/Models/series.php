@@ -12,7 +12,7 @@ class series extends Model
     public function getPosterAttribute($value)
     {
         $result = parse_url($value);
-        $ip = $result['host'];
+        $ip = $result['host'] ?? "";
         $newip = str_replace($ip,$_SERVER['SERVER_ADDR'],$value);
         
         return $newip;
